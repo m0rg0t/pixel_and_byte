@@ -1,38 +1,37 @@
-
 <section id="contact" class="w-full py-12 border-t border-[#ffffff10]">
   <div class="max-w-5xl mx-auto">
-    <h2 class="text-lg text-[var(--sec)] mb-2 shiny-sec">Let's talk</h2>
-    <h3 class="text-4xl md:text-5xl font-medium text-[var(--white)] mb-6">Contact</h3>
+    <h2 class="text-lg text-[var(--sec)] mb-2 shiny-sec">Поболтаем?</h2>
+    <h3 class="text-4xl md:text-5xl font-medium text-[var(--white)] mb-6">Контакты</h3>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div class="text-[var(--white-icon)]">
         <p class="mb-4">
-          Have a question or a project in mind? Feel free to reach out.
+          Есть вопросы? Напишите нам!
         </p>
         <div class="flex items-center gap-2">
-          <span>Location:</span>
-          <span class="text-[var(--white)]">Colombia, Valle del cauca</span>
+          <span>Местоположение:</span>
+          <span class="text-[var(--white)]">Санкт-Петербург</span>
         </div>
       </div>
 
       <div>
-        <form id="contact-form" action="https://formspree.io/f/mnnjznkj" method="POST" class="flex flex-col gap-4">
+        <form id="contact-form" action="#" method="POST" class="flex flex-col gap-4">
           <input
             type="text"
             name="from_name"
-            placeholder="Name"
+            placeholder="Имя"
             required
             class="px-4 py-2 bg-[#1414149c] text-[var(--white)] border border-[var(--white-icon-tr)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--sec)]"
           />
           <input
             type="email"
             name="reply_to"
-            placeholder="Email"
+            placeholder="Электронная почта"
             required
             class="px-4 py-2 bg-[#1414149c] text-[var(--white)] border border-[var(--white-icon-tr)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--sec)]"
           />
           <textarea
             name="message"
-            placeholder="Message"
+            placeholder="Сообщение"
             rows="4"
             required
             class="px-4 py-2 bg-[#1414149c] text-[var(--white)] border border-[var(--white-icon-tr)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--sec)]"
@@ -41,11 +40,11 @@
             type="submit"
             class="px-4 py-2 bg-[var(--white-icon-tr)] text-[var(--white)] rounded-lg opacity-60 transition-opacity border border-[var(--white-icon-tr)] hover:opacity-100 hover:bg-[var(--white-icon-tr)]"
           >
-            Submit
+            Отправить
           </button>
         </form>
         <div id="form-message" class="hidden justify-center items-center mt-4 text-[var(--white)] text-lg">
-          ✅ Thank you for your message!
+          ✅ Спасибо за ваше сообщение!
         </div>
       </div>
     </div>
@@ -56,28 +55,18 @@
   const form = document.getElementById('contact-form');
   const formMessage = document.getElementById('form-message');
 
-  form.addEventListener('submit', async (e) => {
+  form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const formData = new FormData(form);
-
-    try {
-      const response = await fetch(form.action, {
-        method: "POST",
-        body: formData,
-        headers: { "Accept": "application/json" }
-      });
-      if (response.ok) {
-        form.reset();
-        form.style.display = 'none';
-        formMessage.classList.remove('hidden');
-      } else {
-        const data = await response.json();
-        console.error('Error response:', data);
-        alert('There was a problem sending your message.');
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      alert('There was a problem sending your message.');
-    }
+    const fromName = form.from_name.value;
+    const replyTo = form.reply_to.value;
+    const message = form.message.value;
+    
+    const subject = encodeURIComponent("Message from " + fromName);
+    const body = encodeURIComponent("Name: " + fromName + "\nEmail: " + replyTo + "\nMessage:\n" + message);
+    const mailtoLink = `mailto:your@email.com?subject=${subject}&body=${body}`;
+    
+    window.location.href = mailtoLink;
+    form.style.display = 'none';
+    formMessage.classList.remove('hidden');
   });
 </script>

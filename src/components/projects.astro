@@ -1,35 +1,93 @@
 ---
 import { Image } from "astro:assets";
-import svgl from "../../public/svgl.png";
-import stockin from "../../public/stockin.png";
+
+const otherAppsData = [
+  {
+    id: 51769331,
+    name: "Таро",
+    link: "https://vk.com/app51769331",
+    logo: "/other_apps_logos/taro_576.webp",
+    description: "Узнайте своё будущее с помощью гадания на Таро.",
+  },
+  {
+    id: 51896624,
+    name: "Магические камни",
+    link: "https://vk.com/app51896624",
+    logo: "/other_apps_logos/stones_576.webp",
+    description: "Исследуйте магические свойства камней.",
+  },
+  {
+    id: 51788038,
+    name: "Астропрогноз",
+    link: "https://vk.com/app51788038",
+    logo: "/other_apps_logos/astro_576.webp",
+    description: "Получите свой ежедневный астрологический прогноз.",
+  },
+  {
+    id: 51819171,
+    name: "Руны",
+    link: "https://vk.com/app51819171",
+    logo: "/other_apps_logos/runes_576.webp",
+    description: "Узнайте о древних рунах и их значениях.",
+  },
+  {
+    id: 52202783,
+    name: "Кофейная гуща",
+    link: "https://vk.com/app52202783",
+    logo: "/other_apps_logos/coffee_576.webp",
+    description: "Предсказание на кофейной гуще.",
+  },
+  {
+    id: 52383310,
+    name: "Таро дня",
+    link: "https://vk.com/app52383310",
+    logo: "/other_apps_logos/daily_tarot_576.webp",
+    description: "Ежедневная карта Таро.",
+  },
+  {
+    id: 52811728,
+    name: "ИТ Гороскоп",
+    link: "https://vk.com/app52811728",
+    logo: "/other_apps_logos/it_horoscope_576.webp",
+    description: "Гороскоп для IT-специалистов.",
+  },
+  {
+    id: 52935900,
+    name: "Кино гороскоп",
+    link: "https://vk.com/app52935900",
+    logo: "/other_apps_logos/films_horoscope_576.webp",
+    description: "Гороскоп для киноманов.",
+  },
+  {
+    id: 52896102,
+    name: "Кулинарный гороскоп",
+    link: "https://vk.com/app52896102",
+    logo: "/other_apps_logos/food_horoscope_576.webp",
+    description: "Гороскоп для гурманов.",
+  },
+];
 
 interface Project {
   title: string;
-  image: ImageMetadata;
+  image: string; // updated to string for logo path
   link: string;
   preview: string;
   status: string;
 }
 
-const projects: Project[] = [
-  {
-    title: "StockIn",
-    image: stockin as ImageMetadata,
-    link: "https://github.com/gothsec/stockin-demo",
-    preview: "https://stockin-demo.vercel.app",
-    status: "In Development",
-  },
-  {
-    title: "Svgl.app",
-    image: svgl as ImageMetadata,
-    link: "https://github.com/pheralb/svgl",
-    preview: "https://svgl.app",
-    status: "Contributor",
-  },
-];
+const projects: Project[] = otherAppsData.map((app) => ({
+  title: app.name,
+  image: app.logo,
+  link: app.link,
+  preview: app.link,
+  status: app.description,
+}));
 ---
 
-<section id="projects" class="py-12 border-t border-[#ffffff10] text-[var(--white)]">
+<section
+  id="projects"
+  class="py-12 border-t border-[#ffffff10] text-[var(--white)]"
+>
   <div class="max-w-5xl mx-auto">
     <h2 class="text-lg text-[var(--sec)] mb-2 shiny-sec">Наши работы</h2>
     <h3 class="text-4xl md:text-5xl font-medium mb-8">VK Mini Apps</h3>
@@ -46,6 +104,9 @@ const projects: Project[] = [
             >
               <div class="rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300 mb-4">
                 <Image
+                  inferSize={true}
+                  width={576}
+                  height={576}
                   src={project.image}
                   alt={project.title}
                   class="w-full h-48 md:h-72 object-cover group-hover:scale-105 transition-transform duration-300"
@@ -59,24 +120,34 @@ const projects: Project[] = [
                   </span>
                 </div>
                 <div class="flex gap-2 ml-auto">
-                  <a 
-                    target="_blank" 
-                    href={project.link} 
-                    aria-label="GitHub" 
+                  {/* <a
+                    target="_blank"
+                    href={project.link}
+                    aria-label="GitHub"
                     class="size-14 flex justify-center items-center text-[var(--white-icon)] hover:text-white transition duration-300 ease-in-out border border-1 border-[var(--white-icon-tr)] p-3 rounded-xl bg-[#1414149c] hover:bg-[var(--white-icon-tr)]"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-7">
-                      <path d="M24 12L18.3431 17.6569L16.9289 16.2426L21.1716 12L16.9289 7.75736L18.3431 6.34315L24 12ZM2.82843 12L7.07107 16.2426L5.65685 17.6569L0 12L5.65685 6.34315L7.07107 7.75736L2.82843 12ZM9.78845 21H7.66009L14.2116 3H16.3399L9.78845 21Z"></path>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="size-7"
+                    >
+                      <path d="M24 12L18.3431 17.6569L16.9289 16.2426L21.1716 12L16.9289 7.75736L18.3431 6.34315L24 12ZM2.82843 12L7.07107 16.2426L5.65685 17.6569L0 12L5.65685 6.34315L7.07107 7.75736L2.82843 12ZM9.78845 21H7.66009L14.2116 3H16.3399L9.78845 21Z" />
                     </svg>
-                  </a>
-                  <a 
-                    target="_blank" 
-                    href={project.preview} 
-                    aria-label="Preview" 
+                  </a> */}
+                  <a
+                    target="_blank"
+                    href={project.preview}
+                    aria-label="Preview"
                     class="size-14 flex justify-center items-center text-[var(--white-icon)] hover:text-white transition duration-300 ease-in-out border border-1 border-[var(--white-icon-tr)] p-3 rounded-xl bg-[#1414149c] hover:bg-[var(--white-icon-tr)]"
                   >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="size-7">
-                      <path d="M16.0037 9.41421L7.39712 18.0208L5.98291 16.6066L14.5895 8H7.00373V6H18.0037V17H16.0037V9.41421Z"></path>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      class="size-7"
+                    >
+                      <path d="M16.0037 9.41421L7.39712 18.0208L5.98291 16.6066L14.5895 8H7.00373V6H18.0037V17H16.0037V9.41421Z" />
                     </svg>
                   </a>
                 </div>
