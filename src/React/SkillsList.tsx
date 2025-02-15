@@ -17,18 +17,18 @@ const SkillsList = () => {
 
   const skills = {
     'Web Development': [
-      'Single Page Applications (SPAs)',
-      'Landing pages and business websites',
-      'Portfolio websites',
+      'VK Mini Apps',
+      'Одностраничные приложения (SPA)',
+      'Лендинги и бизнес-сайты',
+      'И прочие радости',
     ],
     'Mobile Development': [
-      'Mobile-friendly web apps',
-      'React Native mobile apps'
+      'Адаптивные веб-приложения',
+      'Мобильные приложения на React Native'
     ],
     'UI/UX Design & Prototyping': [
-      'UI design with Figma & Canva',
-      'UX research & improvements',
-      'Prototyping for websites & mobile apps',
+      'UI дизайн',
+      'Прототипирование для сайтов и мобильных приложений',
     ]
   };
 
@@ -38,7 +38,7 @@ const SkillsList = () => {
 
   return (
     <div className="text-left pt-3 md:pt-9">
-      <h3 className="text-[var(--white)] text-3xl md:text-4xl font-semibold md:mb-6">What I do?</h3>
+      <h3 className="text-[var(--white)] text-3xl md:text-4xl font-semibold md:mb-6">Что я делаю?</h3>
       <ul className="space-y-4 mt-4 text-lg">
         {Object.entries(skills).map(([category, items]) => (
           <li key={category} className="w-full">
@@ -47,7 +47,7 @@ const SkillsList = () => {
               className="md:w-[400px] w-full bg-[#1414149c] rounded-2xl text-left hover:bg-opacity-80 transition-all border border-[var(--white-icon-tr)] cursor-pointer overflow-hidden"
             >
               <div className="flex items-center gap-3 p-4">
-                {CategoryIcons[category]}
+                {CategoryIcons[category as keyof typeof CategoryIcons]}
                 <div className="flex items-center gap-2 flex-grow justify-between">
                   <div className="min-w-0 max-w-[200px] md:max-w-none overflow-hidden">
                     <span className="block truncate text-[var(--white)] text-lg">
