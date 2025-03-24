@@ -1,0 +1,101 @@
+---
+import Layout from './Layout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  image?: string;
+  tags?: string[];
+}
+
+const { title, description, pubDate, updatedDate, image, tags } = Astro.props;
+
+const formattedPubDate = pubDate.toLocaleDateString('en-us', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+
+const formattedUpdatedDate = updatedDate?.toLocaleDateString('en-us', {
+  year: 'numeric',
+  month: 'short',
+  day: 'numeric',
+});
+---
+
+<Layout title={title}>
+  <article class="mx-auto max-w-3xl pt-10">
+    <div class="mb-8">
+      {image && <img src={image} alt={title} class="w-full h-64 object-cover rounded-lg mb-4" />}
+      <h1 class="text-3xl font-bold text-[--white] mb-2">{title}</h1>
+      <p class="text-[--white-icon] mb-4">{description}</p>
+      <div class="flex items-center text-sm text-[--white-icon]">
+        <span>Published on {formattedPubDate}</span>
+        {updatedDate && (
+          <span class="ml-4">Updated on {formattedUpdatedDate}</span>
+        )}
+      </div>
+      {tags && tags.length > 0 && (
+        <div class="mt-4 flex flex-wrap gap-2">
+          {tags.map(tag => (
+            <span class="px-2 py-1 bg-[--white-icon-tr] text-[--white] text-xs rounded">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+    </div>
+    <div class="prose text-[--white] max-w-none">
+      <slot />
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .prose {
+    line-height: 1.6;
+  }
+  
+  .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+    color: var(--white);
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+  }
+  
+  .prose p {
+    margin-bottom: 1em;
+  }
+  
+  .prose a {
+    color: var(--sec);
+    text-decoration: underline;
+  }
+  
+  .prose ul, .prose ol {
+    margin-left: 1.5em;
+    margin-bottom: 1em;
+  }
+  
+  .prose blockquote {
+    border-left: 3px solid var(--sec);
+    padding-left: 1em;
+    margin-left: 0;
+    color: var(--white-icon);
+  }
+  
+  .prose code {
+    background-color: var(--white-icon-tr);
+    padding: 0.1em 0.3em;
+    border-radius: 3px;
+  }
+  
+  .prose pre {
+    background-color: #1e1e1e;
+    padding: 1em;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin: 1em 0;
+  }
+</style>
