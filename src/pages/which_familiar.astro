@@ -1,0 +1,115 @@
+---
+import Footer from "../components/footer.astro"
+import Nav from "../components/nav.astro"
+import Layout from "../layouts/Layout.astro"
+import { Image } from "astro:assets"
+---
+
+<Layout title="Кто твой фамилиар?">
+  <Nav />
+
+  <section class="text-[var(--white)] mt-12 md:mt-20 mb-12">
+    <div class="max-w-5xl mx-auto space-y-8 py-8">
+      <div class="text-left space-y-4">
+        <h1 class="text-[var(--white)] text-5xl md:text-6xl font-medium text-pretty leading-none">
+          Кто твой фамилиар?
+        </h1>
+        <p class="text-lg md:text-xl text-[var(--white-icon)] mt-6">
+          Магический тест в формате визуальной новеллы
+        </p>
+
+        <div class="flex justify-center my-8">
+          <Image
+            inferSize={true}
+            width={576}
+            height={576}
+            src="/other_apps_logos/familiar_icon_576.webp"
+            alt="Кто твой фамилиар?"
+            class="rounded-2xl max-w-xs"
+          />
+        </div>
+
+        <div class="mt-8 space-y-6">
+          <p class="text-lg">
+            «Какой твой фамилиар?» — волшебное мини‑приложение, где ты проходишь интерактивный тест и находишь своего идеального магического спутника.
+          </p>
+          <ul class="list-disc pl-5 space-y-2 text-lg">
+            <li>Уникальные вопросы от лица разных фамилиаров</li>
+            <li>Яркие персонажи — от язвительного ворона до философской жабы</li>
+            <li>Волшебная атмосфера и чарующие иллюстрации</li>
+            <li>Возможность пройти тест снова и открыть других фамилиаров</li>
+          </ul>
+          <p class="text-lg">
+            С кем ты связан по духу — с грациозной белой ланью, хулиганистым енотом или мудрым ёжиком из чащи? Пройди испытания и узнай!
+          </p>
+
+          <div class="bg-[#1414149c] border border-[var(--white-icon-tr)] p-6 rounded-2xl mt-8">
+            <h2 class="text-2xl mb-4 text-[var(--sec)] shiny-sec">Начните своё путешествие прямо сейчас!</h2>
+            <p class="mb-6">Выберите удобную для вас платформу:</p>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <a
+                href="https://which-familiar.pixel-and-byte.ru/"
+                target="_blank"
+                class="flex items-center justify-center gap-3 bg-[#1414149c] hover:bg-[var(--white-icon-tr)] text-[var(--white)] border border-[var(--white-icon-tr)] p-4 rounded-xl transition duration-300 ease-in-out"
+              >
+                <span>Играть в браузере</span>
+              </a>
+
+              <a
+                href="https://vk.com/app53366695"
+                target="_blank"
+                class="flex items-center justify-center gap-3 bg-[#1414149c] hover:bg-[var(--white-icon-tr)] text-[var(--white)] border border-[var(--white-icon-tr)] p-4 rounded-xl transition duration-300 ease-in-out"
+              >
+                <span>Играть ВКонтакте</span>
+              </a>
+
+              <a
+                href="https://t.me/which_familiar_bot"
+                target="_blank"
+                class="flex items-center justify-center gap-3 bg-[#1414149c] hover:bg-[var(--white-icon-tr)] text-[var(--white)] border border-[var(--white-icon-tr)] p-4 rounded-xl transition duration-300 ease-in-out"
+              >
+                <span>Чат-бот в Telegram</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-12 space-y-8">
+        <h2 class="text-2xl mb-6 text-[var(--sec)]">Особенности приложения</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div class="bg-[#1414149c] border border-[var(--white-icon-tr)] p-5 rounded-2xl">
+            <h3 class="text-xl mb-3">Незабываемые персонажи</h3>
+            <p>
+              От язвительного ворона до мудрой жабы – каждый фамилиар расскажет свою историю и задаст вопросы, раскрывающие ваш характер.
+            </p>
+          </div>
+
+          <div class="bg-[#1414149c] border border-[var(--white-icon-tr)] p-5 rounded-2xl">
+            <h3 class="text-xl mb-3">Волшебные иллюстрации</h3>
+            <p>
+              Красочные арты создают атмосферу настоящего магического приключения и делают каждое прохождение уникальным.
+            </p>
+          </div>
+
+          <div class="bg-[#1414149c] border border-[var(--white-icon-tr)] p-5 rounded-2xl">
+            <h3 class="text-xl mb-3">Мультиплатформенность</h3>
+            <p>
+              Проходите тест где угодно: в браузере, ВКонтакте или через Telegram-бота. Результаты доступны на всех платформах.
+            </p>
+          </div>
+
+          <div class="bg-[#1414149c] border border-[var(--white-icon-tr)] p-5 rounded-2xl">
+            <h3 class="text-xl mb-3">Современные технологии</h3>
+            <p>
+              Приложение создано на базе React и VK Mini Apps с серверной логикой на Node.js. Основной вызов — единый геймплей в разных средах и работа с VK Bridge. Статистика прохождений записывается в базу данных SQLite.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
