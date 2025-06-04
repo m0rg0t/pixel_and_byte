@@ -71,7 +71,7 @@ const otherAppsData = [
     link: "https://vk.com/app52985161",
     logo: "/other_apps_logos/game_horoscope_576.webp",
     description: "Гороскоп для геймеров - во что поиграть сегодня?",
-  }, 
+  },
   {
     id: 53218171,
     name: "Кто ты из Гарри Поттера?",
@@ -143,7 +143,7 @@ const projects: Project[] = otherAppsData.map((app) => ({
                   height={576}
                   src={project.image}
                   alt={project.title}
-                  class="w-full h-48 md:h-72 object-cover group-hover:scale-105 transition-transform duration-300"
+                  class="w-full h-48 md:aspect-square md:h-auto object-cover group-hover:scale-105 transition-transform duration-300"
                 />
               </div>
               <div class="flex items-center px-3">
