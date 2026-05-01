@@ -5,7 +5,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
       <div class="text-[var(--white-icon)]">
         <p class="mb-4">
-          Есть вопросы? Напишите нам!
+          Есть вопросы? Напишите нам в группу ВКонтакте или на электронную почту.
         </p>
         <div class="flex items-center gap-2">
           <span>Местоположение:</span>
@@ -13,60 +13,49 @@
         </div>
       </div>
 
-      <div>
-        <form id="contact-form" action="#" method="POST" class="flex flex-col gap-4">
-          <input
-            type="text"
-            name="from_name"
-            placeholder="Имя"
-            required
-            class="px-4 py-2 bg-[#1414149c] text-[var(--white)] border border-[var(--white-icon-tr)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--sec)]"
-          />
-          <input
-            type="email"
-            name="reply_to"
-            placeholder="Электронная почта"
-            required
-            class="px-4 py-2 bg-[#1414149c] text-[var(--white)] border border-[var(--white-icon-tr)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--sec)]"
-          />
-          <textarea
-            name="message"
-            placeholder="Сообщение"
-            rows="4"
-            required
-            class="px-4 py-2 bg-[#1414149c] text-[var(--white)] border border-[var(--white-icon-tr)] rounded-lg focus:outline-none focus:ring-2 focus:ring-[var(--sec)]"
-          ></textarea>
-          <button
-            type="submit"
-            class="px-4 py-2 bg-[var(--white-icon-tr)] text-[var(--white)] rounded-lg opacity-60 transition-opacity border border-[var(--white-icon-tr)] hover:opacity-100 hover:bg-[var(--white-icon-tr)]"
+      <div class="flex flex-col gap-4">
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://vk.com/pixel_and_byte"
+          class="flex items-center gap-3 px-4 py-3 bg-[#1414149c] text-[var(--white)] border border-[var(--white-icon-tr)] rounded-lg hover:bg-[var(--white-icon-tr)] transition-colors"
+        >
+          <svg
+            aria-hidden="true"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            style="width: 24px; height: 24px;"
           >
-            Отправить
-          </button>
-        </form>
-        <div id="form-message" class="hidden justify-center items-center mt-4 text-[var(--white)] text-lg">
-          ✅ Спасибо за ваше сообщение!
-        </div>
+            <g fill="currentColor"
+              ><path
+                fill-rule="evenodd"
+                d="M10.754 3.1h2.492c1.27 0 2.288 0 3.105.078.841.08 1.563.248 2.21.644a4.9 4.9 0 0 1 1.617 1.618c.396.646.564 1.368.644 2.209.078.817.078 1.835.078 3.105v2.492c0 1.27 0 2.288-.078 3.106-.08.84-.248 1.562-.644 2.208a4.9 4.9 0 0 1-1.618 1.618c-.646.396-1.368.564-2.209.644-.817.078-1.835.078-3.106.078h-2.49c-1.271 0-2.289 0-3.107-.078-.84-.08-1.562-.248-2.208-.644a4.9 4.9 0 0 1-1.618-1.618c-.396-.646-.564-1.368-.644-2.208-.078-.818-.078-1.836-.078-3.106v-2.492c0-1.27 0-2.288.078-3.105.08-.841.248-1.563.644-2.21A4.9 4.9 0 0 1 5.44 3.823c.646-.396 1.368-.564 2.208-.644.818-.078 1.836-.078 3.106-.078M7.82 4.97c-.71.067-1.123.193-1.439.387A3.1 3.1 0 0 0 5.357 6.38c-.194.316-.32.73-.388 1.439-.068.722-.07 1.654-.07 2.981v2.4c0 1.327.002 2.259.07 2.981.068.71.194 1.123.388 1.439a3.1 3.1 0 0 0 1.023 1.023c.316.194.73.32 1.439.387.722.07 1.654.07 2.98.07h2.4c1.328 0 2.26 0 2.982-.07.709-.067 1.123-.193 1.439-.387a3.1 3.1 0 0 0 1.023-1.023c.194-.316.32-.73.387-1.439.069-.722.07-1.654.07-2.981v-2.4c0-1.327-.001-2.259-.07-2.981-.067-.71-.194-1.123-.387-1.439a3.1 3.1 0 0 0-1.023-1.023c-.316-.194-.73-.32-1.439-.387-.722-.069-1.654-.07-2.981-.07h-2.4c-1.327 0-2.259.001-2.981.07"
+                clip-rule="evenodd"></path><path
+                d="M12.537 15.5c-3.724 0-5.849-2.553-5.937-6.8h1.865c.062 3.118 1.437 4.438 2.526 4.71V8.7h1.757v2.689c1.075-.116 2.206-1.341 2.587-2.689h1.756c-.292 1.66-1.518 2.886-2.39 3.39.872.408 2.268 1.477 2.799 3.41h-1.934c-.415-1.293-1.45-2.294-2.818-2.43v2.43z"
+              ></path></g
+            >
+          </svg>
+          <span>Группа ВКонтакте: vk.com/pixel_and_byte</span>
+        </a>
+
+        <a
+          href="mailto:m0rg0t.anton@gmail.com"
+          class="flex items-center gap-3 px-4 py-3 bg-[#1414149c] text-[var(--white)] border border-[var(--white-icon-tr)] rounded-lg hover:bg-[var(--white-icon-tr)] transition-colors"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            width="24"
+            height="24"
+            fill="currentColor"
+            aria-hidden="true"
+          >
+            <path d="M3 3h18a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zm17 4.238-7.928 7.1L4 7.216V19h16V7.238zM4.511 5l7.55 6.662L19.502 5H4.511z"></path>
+          </svg>
+          <span>m0rg0t.anton@gmail.com</span>
+        </a>
       </div>
     </div>
   </div>
 </section>
-
-<script type="module" is:inline>
-  const form = document.getElementById('contact-form');
-  const formMessage = document.getElementById('form-message');
-
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const fromName = form.from_name.value;
-    const replyTo = form.reply_to.value;
-    const message = form.message.value;
-    
-    const subject = encodeURIComponent("Message from " + fromName);
-    const body = encodeURIComponent("Name: " + fromName + "\nEmail: " + replyTo + "\nMessage:\n" + message);
-    const mailtoLink = `mailto:m0rg0t.anton@gmail.com?subject=${subject}&body=${body}`;
-    
-    window.location.href = mailtoLink;
-    form.style.display = 'none';
-    formMessage.classList.remove('hidden');
-  });
-</script>
