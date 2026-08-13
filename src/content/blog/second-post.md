@@ -2,7 +2,6 @@
 title: 'My Second Blog Post'
 description: 'Learn more about me and my journey in tech.'
 pubDate: 2023-07-15
-image: '/blog/second-post.jpg'
 tags: ['personal', 'technology']
 ---
 

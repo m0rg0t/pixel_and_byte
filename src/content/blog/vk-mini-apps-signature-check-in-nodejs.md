@@ -2,7 +2,6 @@
 title: 'VK Mini Apps - Проверка подписи на Node.js'
 description: 'Реализация проверки подписи в VK Mini Apps с использованием Node.js и Astro.'
 pubDate: 2023-07-01
-image: '/blog/first-post.jpg'
 tags: ['miniapps', 'vk mini apps', 'learning in public']
 ---
 

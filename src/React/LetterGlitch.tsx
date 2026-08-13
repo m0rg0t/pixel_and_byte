@@ -1,5 +1,56 @@
 import { useRef, useEffect } from "react";
 
+const FONT_SIZE = 16;
+const CHAR_WIDTH = 10;
+const CHAR_HEIGHT = 20;
+
+const LETTERS_AND_SYMBOLS = [
+  "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
+  "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
+  "!", "@", "#", "$", "&", "*", "(", ")", "-", "_", "+", "=", "/",
+  "[", "]", "{", "}", ";", ":", "<", ">", ",", "0", "1", "2", "3",
+  "4", "5", "6", "7", "8", "9",
+] as const;
+
+const getRandomChar = () =>
+  LETTERS_AND_SYMBOLS[
+    Math.floor(Math.random() * LETTERS_AND_SYMBOLS.length)
+  ];
+
+const hexToRgb = (hex: string) => {
+  const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
+  const expandedHex = hex.replace(shorthandRegex, (_match, r, g, b) => {
+    return r + r + g + g + b + b;
+  });
+
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(expandedHex);
+  return result
+    ? {
+        r: parseInt(result[1], 16),
+        g: parseInt(result[2], 16),
+        b: parseInt(result[3], 16),
+      }
+    : null;
+};
+
+const interpolateColor = (
+  start: { r: number; g: number; b: number },
+  end: { r: number; g: number; b: number },
+  factor: number,
+) => {
+  const result = {
+    r: Math.round(start.r + (end.r - start.r) * factor),
+    g: Math.round(start.g + (end.g - start.g) * factor),
+    b: Math.round(start.b + (end.b - start.b) * factor),
+  };
+  return `rgb(${result.r}, ${result.g}, ${result.b})`;
+};
+
+const calculateGrid = (width: number, height: number) => ({
+  columns: Math.ceil(width / CHAR_WIDTH),
+  rows: Math.ceil(height / CHAR_HEIGHT),
+});
+
 const LetterGlitch = ({
   glitchColors = ["#5e4491", "#A476FF", "#241a38"],
   glitchSpeed = 33,
@@ -25,116 +76,10 @@ const LetterGlitch = ({
   >([]);
   const grid = useRef({ columns: 0, rows: 0 });
   const context = useRef<CanvasRenderingContext2D | null>(null);
-  const lastGlitchTime = useRef(Date.now());
-
-  const fontSize = 16;
-  const charWidth = 10;
-  const charHeight = 20;
-
-  const lettersAndSymbols = [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E",
-    "F",
-    "G",
-    "H",
-    "I",
-    "J",
-    "K",
-    "L",
-    "M",
-    "N",
-    "O",
-    "P",
-    "Q",
-    "R",
-    "S",
-    "T",
-    "U",
-    "V",
-    "W",
-    "X",
-    "Y",
-    "Z",
-    "!",
-    "@",
-    "#",
-    "$",
-    "&",
-    "*",
-    "(",
-    ")",
-    "-",
-    "_",
-    "+",
-    "=",
-    "/",
-    "[",
-    "]",
-    "{",
-    "}",
-    ";",
-    ":",
-    "<",
-    ">",
-    ",",
-    "0",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-  ];
-
-  const getRandomChar = () => {
-    return lettersAndSymbols[
-      Math.floor(Math.random() * lettersAndSymbols.length)
-    ];
-  };
+  const lastGlitchTime = useRef(0);
 
   const getRandomColor = () => {
     return glitchColors[Math.floor(Math.random() * glitchColors.length)];
-  };
-
-  const hexToRgb = (hex: string) => {
-    const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-    hex = hex.replace(shorthandRegex, (m, r, g, b) => {
-      return r + r + g + g + b + b;
-    });
-
-    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result
-      ? {
-          r: parseInt(result[1], 16),
-          g: parseInt(result[2], 16),
-          b: parseInt(result[3], 16),
-        }
-      : null;
-  };
-
-  const interpolateColor = (
-    start: { r: number; g: number; b: number },
-    end: { r: number; g: number; b: number },
-    factor: number,
-  ) => {
-    const result = {
-      r: Math.round(start.r + (end.r - start.r) * factor),
-      g: Math.round(start.g + (end.g - start.g) * factor),
-      b: Math.round(start.b + (end.b - start.b) * factor),
-    };
-    return `rgb(${result.r}, ${result.g}, ${result.b})`;
-  };
-
-  const calculateGrid = (width: number, height: number) => {
-    const columns = Math.ceil(width / charWidth);
-    const rows = Math.ceil(height / charHeight);
-    return { columns, rows };
   };
 
   const initializeLetters = (columns: number, rows: number) => {
@@ -177,12 +122,12 @@ const LetterGlitch = ({
     const ctx = context.current;
     const { width, height } = canvasRef.current!.getBoundingClientRect();
     ctx.clearRect(0, 0, width, height);
-    ctx.font = `${fontSize}px monospace`;
+    ctx.font = `${FONT_SIZE}px monospace`;
     ctx.textBaseline = "top";
 
     letters.current.forEach((letter, index) => {
-      const x = (index % grid.current.columns) * charWidth;
-      const y = Math.floor(index / grid.current.columns) * charHeight;
+      const x = (index % grid.current.columns) * CHAR_WIDTH;
+      const y = Math.floor(index / grid.current.columns) * CHAR_HEIGHT;
       ctx.fillStyle = letter.color;
       ctx.fillText(letter.char, x, y);
     });
@@ -255,15 +200,19 @@ const LetterGlitch = ({
 
     context.current = canvas.getContext("2d");
     resizeCanvas();
+    lastGlitchTime.current = Date.now();
     animate();
 
-    let resizeTimeout: NodeJS.Timeout;
+    let resizeTimeout: ReturnType<typeof setTimeout> | undefined;
 
     const handleResize = () => {
       clearTimeout(resizeTimeout);
       resizeTimeout = setTimeout(() => {
-        cancelAnimationFrame(animationRef.current as number);
+        if (animationRef.current !== null) {
+          cancelAnimationFrame(animationRef.current);
+        }
         resizeCanvas();
+        lastGlitchTime.current = Date.now();
         animate();
       }, 100);
     };
@@ -271,7 +220,12 @@ const LetterGlitch = ({
     window.addEventListener("resize", handleResize);
 
     return () => {
-      cancelAnimationFrame(animationRef.current!);
+      if (resizeTimeout !== undefined) {
+        clearTimeout(resizeTimeout);
+      }
+      if (animationRef.current !== null) {
+        cancelAnimationFrame(animationRef.current);
+      }
       window.removeEventListener("resize", handleResize);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
