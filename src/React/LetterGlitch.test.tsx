@@ -6,7 +6,10 @@ describe('LetterGlitch', () => {
   beforeAll(() => {
     vi.stubGlobal('cancelAnimationFrame', () => {});
     vi.stubGlobal('requestAnimationFrame', () => 1);
-    HTMLCanvasElement.prototype.getContext = vi.fn();
+    Object.defineProperty(HTMLCanvasElement.prototype, 'getContext', {
+      configurable: true,
+      value: vi.fn(() => null),
+    });
   });
   it('renders a canvas element', () => {
     const { container } = render(

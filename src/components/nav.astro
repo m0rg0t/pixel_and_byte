@@ -59,13 +59,14 @@ const navItems: NavItem[] = [
   </nav>
 </div>
 
-<script define:vars={{ isIndexPage }}>
+<script is:inline define:vars={{ isIndexPage }}>
   // Only apply smooth scrolling behavior on the index page for hash links
   if (isIndexPage) {
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
       anchor.addEventListener("click", function (e) {
         e.preventDefault();
-        const target = e.currentTarget as HTMLAnchorElement;
+        const target = e.currentTarget;
+        if (!(target instanceof HTMLAnchorElement)) return;
         const targetId = target.getAttribute("href")?.substring(1) || "";
         const targetElement = document.getElementById(targetId);
         if (targetElement) {
@@ -81,8 +82,8 @@ const navItems: NavItem[] = [
       const navLinks = document.querySelectorAll("nav a[href^='#']");
       const observerOptions = { threshold: 0.6 };
 
-      const observerCallback = (entries: any[]) => {
-        entries.forEach((entry: { isIntersecting: any; target: { getAttribute: (arg0: string) => any; }; }) => {
+      const observerCallback = (entries) => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
             navLinks.forEach((link) => link.classList.remove("active"));
             const id = entry.target.getAttribute("id");

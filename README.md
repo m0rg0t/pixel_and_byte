@@ -24,6 +24,7 @@ Run the following from the project root:
 | `npm run dev`    | Start the development server         |
 | `npm run build`  | Build the production version in `dist/` |
 | `npm run preview`| Preview the built site locally       |
+| `npm run check`  | Run Astro and TypeScript diagnostics  |
 | `npm test`       | Run the test suite                  |
 
 ## Learn More

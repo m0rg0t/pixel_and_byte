@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 const CategoryIcons = {
   'Web Development': (
@@ -12,25 +12,25 @@ const CategoryIcons = {
   )
 };
 
+const skills = {
+  'Web Development': [
+    'VK Mini Apps',
+    'Одностраничные приложения (SPA)',
+    'Лендинги и бизнес-сайты',
+    'И прочие радости',
+  ],
+  'Mobile Development': [
+    'Адаптивные веб-приложения',
+    'Мобильные приложения на React Native',
+  ],
+  'UI/UX Design & Prototyping': [
+    'UI дизайн',
+    'Прототипирование для сайтов и мобильных приложений',
+  ],
+};
+
 const SkillsList = () => {
   const [openItem, setOpenItem] = useState<string | null>(null);
-
-  const skills = {
-    'Web Development': [
-      'VK Mini Apps',
-      'Одностраничные приложения (SPA)',
-      'Лендинги и бизнес-сайты',
-      'И прочие радости',
-    ],
-    'Mobile Development': [
-      'Адаптивные веб-приложения',
-      'Мобильные приложения на React Native'
-    ],
-    'UI/UX Design & Prototyping': [
-      'UI дизайн',
-      'Прототипирование для сайтов и мобильных приложений',
-    ]
-  };
 
   const toggleItem = (item: string) => {
     setOpenItem(openItem === item ? null : item);
@@ -42,11 +42,14 @@ const SkillsList = () => {
       <ul className="space-y-4 mt-4 text-lg">
         {Object.entries(skills).map(([category, items]) => (
           <li key={category} className="w-full">
-            <div
-              onClick={() => toggleItem(category)}
-              className="md:w-[400px] w-full bg-[#1414149c] rounded-2xl text-left hover:bg-opacity-80 transition-all border border-[var(--white-icon-tr)] cursor-pointer overflow-hidden"
-            >
-              <div className="flex items-center gap-3 p-4">
+            <div className="md:w-[400px] w-full bg-[#1414149c] rounded-2xl text-left border border-[var(--white-icon-tr)] overflow-hidden">
+              <button
+                type="button"
+                onClick={() => toggleItem(category)}
+                aria-expanded={openItem === category}
+                aria-controls={`skills-${category.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`}
+                className="flex items-center gap-3 p-4 w-full text-left hover:bg-[var(--white-icon-tr)] transition-colors cursor-pointer"
+              >
                 {CategoryIcons[category as keyof typeof CategoryIcons]}
                 <div className="flex items-center gap-2 flex-grow justify-between">
                   <div className="min-w-0 max-w-[200px] md:max-w-none overflow-hidden">
@@ -65,19 +68,20 @@ const SkillsList = () => {
                     <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path>
                   </svg>
                 </div>
-              </div>
+              </button>
 
               <div 
-                className={`transition-all duration-300 px-4 ${
+                id={`skills-${category.replace(/[^a-z0-9]+/gi, '-').toLowerCase()}`}
+                className={`transition-[max-height,opacity,padding] duration-300 px-4 ${
                   openItem === category ? 'max-h-[500px] pb-4 opacity-100' : 'max-h-0 opacity-0'
                 }`}
               >
                 <ul className="space-y-2 text-[var(--white-icon)] text-sm">
-                  {items.map((item, index) => (
-                    <div key={index} className="flex items-center">
-                      <span className='pl-1'>•</span>
-                      <li className="pl-3">{item}</li>
-                    </div>
+                  {items.map((item) => (
+                    <li key={item} className="flex items-center">
+                      <span aria-hidden="true" className="pl-1">•</span>
+                      <span className="pl-3">{item}</span>
+                    </li>
                   ))}
                 </ul>
               </div>
