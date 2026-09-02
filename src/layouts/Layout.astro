@@ -1,78 +1,123 @@
 ---
 import "../styles/global.css";
+import socialImage from "../assets/brand/pixel-and-byte-vk-cover-1920x768.png";
 
 interface Props {
   title: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  type?: "website" | "article";
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  lang?: string;
+  structuredData?: Record<string, unknown> | Record<string, unknown>[];
 }
 
-const { title } = Astro.props;
+const {
+  title,
+  description = "Пиксель & Байт — команда из Санкт-Петербурга: создаём веб-приложения, VK Mini Apps, мобильные продукты и UI/UX-дизайн.",
+  image,
+  imageAlt = "Пиксель & Байт — команда цифровой разработки",
+  type = "website",
+  publishedTime,
+  modifiedTime,
+  lang = "ru-RU",
+  structuredData,
+} = Astro.props;
+
+const siteName = "Пиксель & Байт";
+const openGraphLocale = lang.replace("-", "_");
+const pageTitle = title === siteName ? title : `${title} | ${siteName}`;
+const siteOrigin = Astro.site ?? new URL("https://pixel-and-byte.ru");
+const canonicalURL = new URL(Astro.url.pathname, siteOrigin);
+const socialImageURL = image
+  ? new URL(image, siteOrigin)
+  : new URL(socialImage.src, siteOrigin);
+const schema = structuredData
+  ? Array.isArray(structuredData)
+    ? structuredData
+    : [structuredData]
+  : [
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        name: pageTitle,
+        description,
+        url: canonicalURL.href,
+        inLanguage: lang,
+        isPartOf: {
+          "@id": "https://pixel-and-byte.ru/#website",
+        },
+      },
+    ];
+const serializedSchema = JSON.stringify(schema).replace(/</g, "\\u003c");
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={lang}>
   <head>
     <meta charset="UTF-8" />
-    <meta name="description" content="Software Developer" />
+    <meta name="description" content={description} />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="robots"
+      content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+    />
+    <meta name="theme-color" content="#101010" />
     <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="Блог Пиксель & Байт"
+      href="/rss.xml"
+    />
     <meta name="yandex-verification" content="2fdeb76b00c29e59" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap">
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={siteName} />
+    <meta property="og:locale" content={openGraphLocale} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={socialImageURL} />
+    <meta property="og:image:alt" content={imageAlt} />
+    {
+      publishedTime && (
+        <meta
+          property="article:published_time"
+          content={publishedTime.toISOString()}
+        />
+      )
+    }
+    {
+      modifiedTime && (
+        <meta
+          property="article:modified_time"
+          content={modifiedTime.toISOString()}
+        />
+      )
+    }
 
-    <title>{title}</title>
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImageURL} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    />
+
+    <title>{pageTitle}</title>
+    <script is:inline type="application/ld+json" set:html={serializedSchema} />
   </head>
-  <body class="bg-[var(--background)] md:px-48 lg:px-20 px-9">
+  <body class="bg-[var(--background)] px-4 sm:px-8 lg:px-12">
     <slot />
   </body>
 </html>
-
-<style is:global>
-  :root {
-    --background: #101010;
-    --sec: #A476FF;
-    --white: #dfdfdf;
-    --white-icon: #f3f3f398;
-    --white-icon-tr: #f3f3f310;
-    --font: "montserrat", system-ui, sans-serif;
-  }
-
-  * {
-    font-family: var(--font);
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
-  }
-
-  *::selection {
-    background-color: var(--sec);
-    color: var(--background);
-  }
-
-  /* Scrollbar styles */
-
-  ::-webkit-scrollbar {
-    width: 15px;
-  }
-
-  ::-webkit-scrollbar-track {
-    background: var(--container);
-    border-radius: 30px;
-  }
-
-  ::-webkit-scrollbar-thumb {
-    background: var(--background);
-    border-radius: 10px;
-  }
-
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--pink);
-  }
-
-  /* Scrollbar styles for Firefox */
-  * {
-    scrollbar-width: thin;
-    scrollbar-color: var(--line) var(--container);
-  }
-</style>

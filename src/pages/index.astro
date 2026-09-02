@@ -5,9 +5,48 @@ import Home from "../components/home.astro";
 import Projects from "../components/projects.astro";
 import Contact from "../components/contact.astro";
 import Footer from "../components/footer.astro";
+
+const description =
+  "Пиксель & Байт — команда веб-разработки из Санкт-Петербурга. Создаём VK Mini Apps, веб- и мобильные приложения, интерфейсы и интерактивные цифровые продукты.";
+
+const structuredData = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://pixel-and-byte.ru/#organization",
+    name: "Пиксель & Байт",
+    alternateName: "Pixel & Byte",
+    url: "https://pixel-and-byte.ru/",
+    logo: "https://pixel-and-byte.ru/favicon.png",
+    description,
+    email: "mailto:m0rg0t.anton@gmail.com",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Санкт-Петербург",
+      addressCountry: "RU",
+    },
+    sameAs: [
+      "https://vk.com/pixel_and_byte",
+      "https://github.com/m0rg0t",
+      "https://www.linkedin.com/in/anton-lenev-98414530/",
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": "https://pixel-and-byte.ru/#website",
+    name: "Пиксель & Байт",
+    alternateName: "Pixel & Byte",
+    url: "https://pixel-and-byte.ru/",
+    inLanguage: "ru-RU",
+    publisher: {
+      "@id": "https://pixel-and-byte.ru/#organization",
+    },
+  },
+];
 ---
 
-<Layout title="Пиксель & Байт">
+<Layout title="Пиксель & Байт" {description} {structuredData}>
   <Nav />
   <Home />
   <Projects />

@@ -1,11 +1,10 @@
 ---
-title: 'VK Mini Apps - Проверка подписи на Node.js'
-description: 'Реализация проверки подписи в VK Mini Apps с использованием Node.js и Astro.'
+title: "VK Mini Apps - Проверка подписи на Node.js"
+description: "Реализация проверки подписи в VK Mini Apps с использованием Node.js и Astro."
 pubDate: 2023-07-01
-tags: ['miniapps', 'vk mini apps', 'learning in public']
+lang: "ru-RU"
+tags: ["miniapps", "vk mini apps", "learning in public"]
 ---
-
-# VK Mini Apps - Проверка подписи на Node.js
 
 ## Введение
 
@@ -31,21 +30,21 @@ tags: ['miniapps', 'vk mini apps', 'learning in public']
 Итак, не буду томить и мучать, но взял я и написал метод проверки подписи
 
 ```javascript
-import crypto from 'node:crypto'; 
+import crypto from 'node:crypto';
 
-export interface SignatureParams { [key: string]: string | number | boolean; } 
+export interface SignatureParams { [key: string]: string | number | boolean; }
 
-export interface GenerateSignatureOptions { 
-  secretKey: string; 
+export interface GenerateSignatureOptions {
+  secretKey: string;
   app_id: string | number; //Сразу извинюсь для чувствительных за сумбур с типами, изначально тут был чистый js, поэтому всю эту историю еще подчистим)
-  params: SignatureParams; 
+  params: SignatureParams;
   user_id: string | number; //
   ts: string | number; //
-} 
+}
 
-export interface CheckRequestSignatureOptions extends GenerateSignatureOptions { 
-signature: string; 
-} 
+export interface CheckRequestSignatureOptions extends GenerateSignatureOptions {
+signature: string;
+}
 
 export const sortParams = (params: SignatureParams): string => {
   return Buffer.from(
@@ -94,7 +93,7 @@ const checkRequestSignature = ({
   return signature === generatedSignature;
 };
 
-export default checkRequestSignature; 
+export default checkRequestSignature;
 ```
 
 То есть все как просили - получили параметры, собрали в строку, посчитали подпись и если все совпало, мы молодцы и нам не подсунули не пойми что.
@@ -114,7 +113,7 @@ const sortParams = (params: TParamsForHashing) => {
         .join(";")
     ).replaceAll("=", "");
   };
-  
+
   /**
    * Get hash from VK Bridge for secure API calls
    * @param {Object} params - Parameters to include in the hash
@@ -126,7 +125,7 @@ const sortParams = (params: TParamsForHashing) => {
       sign: "",
       ts: 0,
     };
-    
+
     try {
       const data = await bridge.send("VKWebAppCreateHash", {
         payload: paramsString,
@@ -137,7 +136,7 @@ const sortParams = (params: TParamsForHashing) => {
       console.error("Error getting hash:", error);
       throw error;
     }
-    
+
     return outSignature;
   };
 ```
@@ -168,7 +167,7 @@ npm install vk-helpers
 К примеру на сервере мы просто испортируем нашу функцию проверки подписи
 
 ```javascript
-import { checkRequestSignature } from 'vk-helpers';
+import { checkRequestSignature } from "vk-helpers";
 ```
 
 И дальше уже в нужном нам месте, к примеру middleware какой проверяем подписи
@@ -186,9 +185,9 @@ if (vk_id && sign && ts) {
     user_id: String(vk_id),
     ts: ts,
   });
-  
+
   if (!isSignatureCorrect) {
-    return reply.code(400).send({ error: 'Signature is not correct' });
+    return reply.code(400).send({ error: "Signature is not correct" });
   }
 }
 ```
@@ -198,9 +197,10 @@ if (vk_id && sign && ts) {
 Но конечно фронт же тоже должен нам все данные сформировать и отправить, так что и его не обделили и добавили функцию и для него:
 
 ```javascript
-const someImportantStuffData = 'Золото закопано под дубом, отмеченным крестом на карте' ;
+const someImportantStuffData =
+  "Золото закопано под дубом, отмеченным крестом на карте";
 const params = { someImportantStuff: someImportantStuffData };
-  
+
 // Get hash for security
 const hash = await getHashForParamsFromVK(params);
 
@@ -209,16 +209,16 @@ const data = {
   vk_id: vkId,
   someImportantStuff: someImportantStuffData,
   sign: hash.sign,
-  ts: hash.ts
+  ts: hash.ts,
 };
 
 // Send data to server
 const response = await fetch(`${API_URL}/api/stats`, {
-  method: 'POST',
+  method: "POST",
   headers: {
-    'Content-Type': 'application/json'
+    "Content-Type": "application/json",
   },
-  body: JSON.stringify(data)
+  body: JSON.stringify(data),
 });
 ```
 

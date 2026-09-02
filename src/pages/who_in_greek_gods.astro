@@ -1,17 +1,46 @@
 ---
-import Footer from "../components/footer.astro"
-import Nav from "../components/nav.astro"
-import Layout from "../layouts/Layout.astro"
-import { Image } from "astro:assets"
+import Footer from "../components/footer.astro";
+import Nav from "../components/nav.astro";
+import Layout from "../layouts/Layout.astro";
+import { Image } from "astro:assets";
+
+const description =
+  "Интерактивный тест в аниме-стиле: ответьте на вопросы и узнайте, кто вы из богов древнегреческого пантеона.";
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Кто ты из греческих богов?",
+  description,
+  url: "https://pixel-and-byte.ru/who_in_greek_gods/",
+  image: "https://pixel-and-byte.ru/other_apps_logos/greek_icon_576.webp",
+  applicationCategory: "GameApplication",
+  operatingSystem: "Web, VK, Telegram",
+  inLanguage: "ru-RU",
+  author: { "@id": "https://pixel-and-byte.ru/#organization" },
+  sameAs: [
+    "https://who-in-greek-gods.pixel-and-byte.ru/",
+    "https://vk.com/app53351255",
+    "https://t.me/who_from_greek_gods_bot",
+  ],
+};
 ---
 
-<Layout title="Кто ты из греческих богов?">
+<Layout
+  title="Кто ты из греческих богов?"
+  {description}
+  image="/other_apps_logos/greek_icon_576.webp"
+  imageAlt="Иллюстрация игры «Кто ты из греческих богов?»"
+  {structuredData}
+>
   <Nav />
 
   <section class="text-[var(--white)] mt-12 md:mt-20 mb-12">
     <div class="max-w-5xl mx-auto space-y-8 py-8">
       <div class="text-left space-y-4">
-        <h1 class="text-[var(--white)] text-5xl md:text-6xl font-medium text-pretty leading-none">
+        <h1
+          class="text-[var(--white)] text-5xl md:text-6xl font-medium text-pretty leading-none"
+        >
           Кто ты из греческих богов?
         </h1>
         <p class="text-lg md:text-xl text-[var(--white-icon)] mt-6">
@@ -31,18 +60,31 @@ import { Image } from "astro:assets"
 
         <div class="mt-8 space-y-6">
           <p class="text-lg">
-            «Кто ты из Греческих Богов?» — это захватывающее мини‑приложение, которое за пару минут расскажет,
-            кто ты в пантеоне Олимпа. Ты — могучий Зевс, мудрая Афина, дерзкий Аид или, может, соблазнительная Афродита?
+            «Кто ты из Греческих Богов?» — это захватывающее мини‑приложение,
+            которое за пару минут расскажет, кто ты в пантеоне Олимпа. Ты —
+            могучий Зевс, мудрая Афина, дерзкий Аид или, может, соблазнительная
+            Афродита?
           </p>
 
           <ul class="list-disc pl-5 space-y-2 text-lg">
-            <li>Пройди интерактивный тест в аниме‑стиле, вдохновлённый мифологией.</li>
-            <li>Узнай свою божественную суть и получи уникальную карточку‑портрет.</li>
-            <li>Делись результатом с друзьями и сравнивайте, кто из вас правит Олимпом!</li>
+            <li>
+              Пройди интерактивный тест в аниме‑стиле, вдохновлённый мифологией.
+            </li>
+            <li>
+              Узнай свою божественную суть и получи уникальную карточку‑портрет.
+            </li>
+            <li>
+              Делись результатом с друзьями и сравнивайте, кто из вас правит
+              Олимпом!
+            </li>
           </ul>
 
-          <div class="bg-[#1414149c] border border-[var(--white-icon-tr)] p-6 rounded-2xl mt-8">
-            <h2 class="text-2xl mb-4 text-[var(--sec)] shiny-sec">Начни своё путешествие прямо сейчас!</h2>
+          <div
+            class="bg-[#1414149c] border border-[var(--white-icon-tr)] p-6 rounded-2xl mt-8"
+          >
+            <h2 class="text-2xl mb-4 text-[var(--sec)] shiny-sec">
+              Начни своё путешествие прямо сейчас!
+            </h2>
             <p class="mb-6">Выберите удобную для вас платформу:</p>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -77,23 +119,29 @@ import { Image } from "astro:assets"
       <div class="mt-12 space-y-8">
         <h2 class="text-2xl mb-6 text-[var(--sec)]">Особенности приложения</h2>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="bg-[#1414149c] border border-[var(--white-icon-tr)] p-5 rounded-2xl">
+          <div
+            class="bg-[#1414149c] border border-[var(--white-icon-tr)] p-5 rounded-2xl"
+          >
             <h3 class="text-xl mb-3">Героические вопросы</h3>
             <p>
-              Познакомьтесь с богами Олимпа через увлекательный диалог и ответы на вопросы,
-              которые раскроют ваш характер и предпочтения.
+              Познакомьтесь с богами Олимпа через увлекательный диалог и ответы
+              на вопросы, которые раскроют ваш характер и предпочтения.
             </p>
           </div>
 
-          <div class="bg-[#1414149c] border border-[var(--white-icon-tr)] p-5 rounded-2xl">
+          <div
+            class="bg-[#1414149c] border border-[var(--white-icon-tr)] p-5 rounded-2xl"
+          >
             <h3 class="text-xl mb-3">Уникальный портрет</h3>
             <p>
-              По итогам прохождения теста получите персональную карточку с божественным образом
-              и поделитесь ей в социальных сетях.
+              По итогам прохождения теста получите персональную карточку с
+              божественным образом и поделитесь ей в социальных сетях.
             </p>
           </div>
 
-          <div class="bg-[#1414149c] border border-[var(--white-icon-tr)] p-5 rounded-2xl">
+          <div
+            class="bg-[#1414149c] border border-[var(--white-icon-tr)] p-5 rounded-2xl"
+          >
             <h3 class="text-xl mb-3">Мультиплатформенность</h3>
             <p>
               Играйте где удобно: в браузере, ВКонтакте или через Telegram‑бота.
@@ -101,11 +149,14 @@ import { Image } from "astro:assets"
             </p>
           </div>
 
-          <div class="bg-[#1414149c] border border-[var(--white-icon-tr)] p-5 rounded-2xl">
+          <div
+            class="bg-[#1414149c] border border-[var(--white-icon-tr)] p-5 rounded-2xl"
+          >
             <h3 class="text-xl mb-3">Современные технологии</h3>
             <p>
-              Приложение создано на базе React и VK Mini Apps с бекендом на Node.js.
-              Основные вызовы заключались в интеграции с VK Bridge и обеспечении единого опыта на всех платформах.
+              Приложение создано на базе React и VK Mini Apps с бекендом на
+              Node.js. Основные вызовы заключались в интеграции с VK Bridge и
+              обеспечении единого опыта на всех платформах.
             </p>
           </div>
         </div>

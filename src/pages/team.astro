@@ -2,21 +2,46 @@
 import Layout from "../layouts/Layout.astro";
 import Nav from "../components/nav.astro";
 import Footer from "../components/footer.astro";
+
+const description =
+  "Команда Пиксель & Байт: разработчики и дизайнер из Санкт-Петербурга, которые создают веб-приложения, VK Mini Apps и цифровые продукты.";
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "Команда Пиксель & Байт",
+  description,
+  url: "https://pixel-and-byte.ru/team/",
+  inLanguage: "ru-RU",
+  about: {
+    "@id": "https://pixel-and-byte.ru/#organization",
+  },
+};
 ---
 
-<Layout title="О команде">
+<Layout title="Команда" {description} {structuredData}>
   <Nav />
   <section class="text-[var(--white)] mt-12 md:mt-20 mb-12">
     <div class="max-w-5xl mx-auto space-y-12 py-8">
       <div class="text-left space-y-4">
-        <h1 class="text-[var(--white)] text-5xl md:text-6xl font-medium leading-none">
+        <h1
+          class="text-[var(--white)] text-5xl md:text-6xl font-medium leading-none"
+        >
           Наша команда
         </h1>
       </div>
 
       <div class="space-y-12">
-        <div class="flex flex-col md:flex-row items-center gap-6 bg-[#1414149c] border border-[var(--white-icon-tr)] p-6 rounded-2xl">
-          <img src="/team/placeholder.svg" alt="Амир Абохсан" class="w-40 h-40 rounded-full object-cover" />
+        <div
+          class="flex flex-col md:flex-row items-center gap-6 bg-[#1414149c] border border-[var(--white-icon-tr)] p-6 rounded-2xl"
+        >
+          <div
+            role="img"
+            aria-label="Амир Абохсан"
+            class="flex h-40 w-40 shrink-0 items-center justify-center rounded-full border border-[var(--white-icon-tr)] bg-gradient-to-br from-[#7c4dff] to-[#2f1b56] text-4xl font-semibold text-white shadow-lg"
+          >
+            АА
+          </div>
           <div class="space-y-4">
             <h2 class="text-2xl text-[var(--sec)]">Амир Абохсан</h2>
             <p class="text-[var(--white-icon)]">Frontend разработчик</p>
@@ -31,8 +56,16 @@ import Footer from "../components/footer.astro";
           </div>
         </div>
 
-        <div class="flex flex-col md:flex-row items-center gap-6 bg-[#1414149c] border border-[var(--white-icon-tr)] p-6 rounded-2xl">
-          <img src="/team/placeholder.svg" alt="Антон Ленев" class="w-40 h-40 rounded-full object-cover" />
+        <div
+          class="flex flex-col md:flex-row items-center gap-6 bg-[#1414149c] border border-[var(--white-icon-tr)] p-6 rounded-2xl"
+        >
+          <div
+            role="img"
+            aria-label="Антон Ленев"
+            class="flex h-40 w-40 shrink-0 items-center justify-center rounded-full border border-[var(--white-icon-tr)] bg-gradient-to-br from-[#9b6dff] to-[#35205d] text-4xl font-semibold text-white shadow-lg"
+          >
+            АЛ
+          </div>
           <div class="space-y-4">
             <h2 class="text-2xl text-[var(--sec)]">Антон Ленев</h2>
             <p class="text-[var(--white-icon)]">Fullstack разработчик</p>
@@ -47,8 +80,16 @@ import Footer from "../components/footer.astro";
           </div>
         </div>
 
-        <div class="flex flex-col md:flex-row items-center gap-6 bg-[#1414149c] border border-[var(--white-icon-tr)] p-6 rounded-2xl">
-          <img src="/team/placeholder.svg" alt="Анна Шор" class="w-40 h-40 rounded-full object-cover" />
+        <div
+          class="flex flex-col md:flex-row items-center gap-6 bg-[#1414149c] border border-[var(--white-icon-tr)] p-6 rounded-2xl"
+        >
+          <div
+            role="img"
+            aria-label="Анна Шор"
+            class="flex h-40 w-40 shrink-0 items-center justify-center rounded-full border border-[var(--white-icon-tr)] bg-gradient-to-br from-[#b98cff] to-[#44266d] text-4xl font-semibold text-white shadow-lg"
+          >
+            АШ
+          </div>
           <div class="space-y-4">
             <h2 class="text-2xl text-[var(--sec)]">Анна Шор</h2>
             <p class="text-[var(--white-icon)]">Дизайнер</p>

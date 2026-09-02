@@ -1,11 +1,11 @@
 ---
-title: 'My Second Blog Post'
-description: 'Learn more about me and my journey in tech.'
+title: "My Second Blog Post"
+description: "Learn more about me and my journey in tech."
 pubDate: 2023-07-15
-tags: ['personal', 'technology']
+draft: true
+lang: "en-US"
+tags: ["personal", "technology"]
 ---
-
-# My Second Blog Post
 
 Welcome to my second blog post! Here, I'd like to share more about my journey in technology and my interests.
 
