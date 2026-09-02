@@ -1,0 +1,150 @@
+---
+import Footer from "../components/footer.astro";
+import Nav from "../components/nav.astro";
+import { getPublishedAppIcon, publishedApps } from "../data/publishedApps";
+import Layout from "../layouts/Layout.astro";
+
+const description = `Каталог из ${publishedApps.length} опубликованных VK Mini Apps команды Пиксель & Байт: игры, инструменты, творческие сервисы, гороскопы и тесты.`;
+const newApps = publishedApps.filter((app) => !app.featured);
+const establishedApps = publishedApps.filter((app) => app.featured);
+const accentByCategory = {
+  Игры: "#7c5cff",
+  Инструменты: "#4d9fff",
+  Творчество: "#d36cff",
+  Саморазвитие: "#49b89c",
+  "Гороскопы и тесты": "#ec8d5c",
+};
+
+const structuredData = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "VK Mini Apps команды Пиксель & Байт",
+  description,
+  url: "https://pixel-and-byte.ru/apps/",
+  inLanguage: "ru-RU",
+  isPartOf: { "@id": "https://pixel-and-byte.ru/#website" },
+  mainEntity: {
+    "@type": "ItemList",
+    numberOfItems: publishedApps.length,
+    itemListElement: publishedApps.map((app, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      item: {
+        "@type": app.category === "Игры" ? "GameApplication" : "WebApplication",
+        name: app.name,
+        description: app.description,
+        url: app.url,
+        applicationCategory: app.category,
+        operatingSystem: "VK Mini Apps",
+        image: new URL(
+          getPublishedAppIcon(app) ?? "/favicon.png",
+          "https://pixel-and-byte.ru",
+        ).href,
+        author: { "@id": "https://pixel-and-byte.ru/#organization" },
+      },
+    })),
+  },
+};
+
+const groups = [
+  {
+    id: "new-apps",
+    title: "Новые в каталоге",
+    description:
+      "Игры и полезные инструменты, найденные в опубликованных проектах команды.",
+    apps: newApps,
+  },
+  {
+    id: "other-apps",
+    title: "Другие приложения",
+    description: "Гороскопы, тесты и сервисы, уже знакомые пользователям.",
+    apps: establishedApps,
+  },
+];
+---
+
+<Layout title="VK Mini Apps" {description} {structuredData}>
+  <Nav />
+  <main class="max-w-5xl mx-auto pt-24 md:pt-32 pb-16">
+    <header class="max-w-3xl mb-14">
+      <p class="text-lg text-[var(--sec)] mb-2">Опубликованные продукты</p>
+      <h1
+        class="text-4xl sm:text-5xl md:text-6xl font-medium text-[var(--white)] mb-5"
+      >
+        VK Mini Apps
+      </h1>
+      <p class="text-lg text-[var(--white-icon)] leading-relaxed">
+        {publishedApps.length} приложений, которыми уже можно пользоваться во ВКонтакте.
+        Они открываются без отдельной установки на телефоне и компьютере.
+      </p>
+    </header>
+
+    {
+      groups.map((group) => (
+        <section class="mb-16" aria-labelledby={group.id}>
+          <div class="mb-7">
+            <h2
+              id={group.id}
+              class="text-3xl font-medium text-[var(--white)] mb-2"
+            >
+              {group.title}
+            </h2>
+            <p class="text-[var(--white-icon)]">{group.description}</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {group.apps.map((app) => {
+              const icon = getPublishedAppIcon(app);
+
+              return (
+                <article class="group rounded-2xl border border-[var(--white-icon-tr)] bg-[#17171b] hover:border-[#ffffff2c] transition-colors">
+                  <a
+                    href={app.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Открыть «${app.name}» во ВКонтакте`}
+                    class="flex gap-4 h-full p-4 sm:p-5 rounded-2xl focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--sec)]"
+                  >
+                    {icon ? (
+                      <img
+                        src={icon}
+                        alt=""
+                        width="80"
+                        height="80"
+                        loading="lazy"
+                        class="size-16 sm:size-20 shrink-0 object-cover rounded-2xl"
+                      />
+                    ) : (
+                      <div
+                        aria-hidden="true"
+                        class="size-16 sm:size-20 shrink-0 grid place-items-center rounded-2xl text-lg font-semibold text-white"
+                        style={`background: #24242d; box-shadow: inset 0 0 0 2px ${accentByCategory[app.category]}`}
+                      >
+                        {app.symbol}
+                      </div>
+                    )}
+                    <div class="min-w-0 flex flex-col">
+                      <span class="text-xs text-[var(--white-icon)] mb-1">
+                        {app.category}
+                      </span>
+                      <h3 class="text-xl font-semibold text-[var(--white)] mb-2">
+                        {app.name}
+                      </h3>
+                      <p class="text-sm leading-relaxed text-[var(--white-icon)] grow">
+                        {app.description}
+                      </p>
+                      <span class="text-sm text-[var(--white)] mt-3">
+                        Открыть во ВКонтакте <span aria-hidden="true">↗</span>
+                      </span>
+                    </div>
+                  </a>
+                </article>
+              );
+            })}
+          </div>
+        </section>
+      ))
+    }
+  </main>
+  <Footer />
+</Layout>

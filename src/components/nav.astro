@@ -7,7 +7,10 @@ interface NavItem {
 
 // Get the current path to determine if we're on the index page
 const currentPath = Astro.url.pathname;
-const isIndexPage = currentPath === "/" || currentPath === "/index" || currentPath === "/index.html";
+const isIndexPage =
+  currentPath === "/" ||
+  currentPath === "/index" ||
+  currentPath === "/index.html";
 
 // Base navigation items with conditional href values
 const navItems: NavItem[] = [
@@ -35,9 +38,13 @@ const navItems: NavItem[] = [
 ---
 
 <div class="flex justify-center w-full">
-  <nav class="fixed flex left-0 right-0 z-[100] bg-[#1414149c] border border-1 border-[var(--white-icon-tr)] backdrop-blur-xl transition-all md:top-0 md:bottom-auto bottom-0 md:w-[33rem] rounded-t-2xl md:rounded-full md:mt-6 md:justify-self-center">  
-    <div class="container mx-auto flex justify-center items-center p-3">
-      <ul class="flex w-full justify-between md:space-x-6 md:justify-center md:gap-12 gap-6">
+  <nav
+    class="fixed flex left-0 right-0 z-[100] bg-[#17171b] border border-[#ffffff1a] shadow-[0_12px_40px_rgba(0,0,0,0.45)] transition-all md:top-0 md:bottom-auto bottom-0 md:w-[33rem] rounded-t-2xl md:rounded-full md:mt-6 md:justify-self-center"
+  >
+    <div
+      class="container mx-auto flex justify-center items-center py-3 px-5 md:px-6"
+    >
+      <ul class="flex w-full justify-between md:justify-center md:gap-10 gap-6">
         {
           navItems.map((item) => (
             <li class="flex-1 md:flex-none">
@@ -95,7 +102,10 @@ const navItems: NavItem[] = [
         });
       };
 
-      const observer = new IntersectionObserver(observerCallback, observerOptions);
+      const observer = new IntersectionObserver(
+        observerCallback,
+        observerOptions,
+      );
       sections.forEach((section) => observer.observe(section));
     });
   }
@@ -107,7 +117,7 @@ const navItems: NavItem[] = [
       padding-bottom: 70px;
     }
   }
-  
+
   nav a.active {
     color: white !important;
   }

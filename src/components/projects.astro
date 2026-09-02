@@ -1,129 +1,6 @@
 ---
 import { Image } from "astro:assets";
-
-const otherAppsData = [
-  {
-    id: 51769331,
-    name: "Таро",
-    link: "https://vk.com/app51769331",
-    logo: "/other_apps_logos/taro_576.webp",
-    description: "Узнайте своё будущее с помощью гадания на Таро.",
-  },
-  {
-    id: 51896624,
-    name: "Магические камни",
-    link: "https://vk.com/app51896624",
-    logo: "/other_apps_logos/stones_576.webp",
-    description: "Исследуйте магические свойства камней.",
-  },
-  {
-    id: 51788038,
-    name: "Астропрогноз",
-    link: "https://vk.com/app51788038",
-    logo: "/other_apps_logos/astro_576.webp",
-    description: "Получите свой ежедневный астрологический прогноз.",
-  },
-  {
-    id: 51819171,
-    name: "Руны",
-    link: "https://vk.com/app51819171",
-    logo: "/other_apps_logos/runes_576.webp",
-    description: "Узнайте о древних рунах и их значениях.",
-  },
-  {
-    id: 52202783,
-    name: "Кофейная гуща",
-    link: "https://vk.com/app52202783",
-    logo: "/other_apps_logos/coffee_576.webp",
-    description: "Предсказание на кофейной гуще.",
-  },
-  {
-    id: 52383310,
-    name: "Таро дня",
-    link: "https://vk.com/app52383310",
-    logo: "/other_apps_logos/daily_tarot_576.webp",
-    description: "Ежедневная карта Таро.",
-  },
-  {
-    id: 52811728,
-    name: "ИТ Гороскоп",
-    link: "https://vk.com/app52811728",
-    logo: "/other_apps_logos/it_horoscope_576.webp",
-    description: "Гороскоп для IT-специалистов.",
-  },
-  {
-    id: 52935900,
-    name: "Кино гороскоп",
-    link: "https://vk.com/app52935900",
-    logo: "/other_apps_logos/films_horoscope_576.webp",
-    description: "Гороскоп для киноманов - что посмотреть сегодня?",
-  },
-  {
-    id: 52896102,
-    name: "Кулинарный гороскоп",
-    link: "https://vk.com/app52896102",
-    logo: "/other_apps_logos/food_horoscope_576.webp",
-    description: "Гороскоп для гурманов - что попробовать сегодня?",
-  },
-  {
-    id: 52985161,
-    name: "Игровой гороскоп",
-    link: "https://vk.com/app52985161",
-    logo: "/other_apps_logos/game_horoscope_576.webp",
-    description: "Гороскоп для геймеров - во что поиграть сегодня?",
-  },
-  {
-    id: 53218171,
-    name: "Кто ты из Гарри Поттера?",
-    link: "/who_in_harry_potter",
-    vk_link: "https://vk.com/app53218171",
-    tg_link: "https://t.me/harry_potter_quest_bot",
-    logo: "/other_apps_logos/who_in_harry_potter_576.webp",
-    description: "Интерактивный квест в мире волшебства.",
-  },
-  {
-    id: 53351255,
-    name: "Кто ты из греческих богов?",
-    link: "/who_in_greek_gods",
-    vk_link: "https://vk.com/app53351255",
-    tg_link: "https://t.me/who_from_greek_gods_bot",
-    logo: "/other_apps_logos/greek_icon_576.webp",
-    description: "Тест - кто ты из греческих богов?",
-  },
-  {
-    id: 53366695,
-    name: "Кто твой фамилиар?",
-    link: "/which_familiar",
-    vk_link: "https://vk.com/app53366695",
-    tg_link: "https://t.me/which_familiar_bot",
-    logo: "/other_apps_logos/familiar_icon_576.webp",
-    description: "Тест - кто твой магический фамилиар?",
-  },
-  {
-    id: 53582085,
-    name: "Аниме гороскоп",
-    link: "https://vk.com/app53582085",
-    logo: "/other_apps_logos/icon_anime_horoscope_576.webp",
-    description:
-      "Аниме-гороскоп: выбери знак и узнай, кто ты в мире аниме. Какой жанр тебе по судьбе? Какой герой тебе близок? Найди свою аниме-судьбу — серьёзно или с улыбкой.",
-  },
-  {
-    id: 53339172,
-    name: "Булочный гороскоп",
-    link: "https://vk.com/app53339172",
-    logo: "/other_apps_logos/buns_horoscope_576.webp",
-    description:
-      "Булочка и твой знак зодиака поведают тебе тайны булочного будущего!",
-  },
-  {
-    id: 52307730,
-    name: "КалорИИ",
-    link: "https://vk.com/app52307730",
-    logo: "/other_apps_logos/calorai_icon_576.webp",
-    description:
-      "Приложение поможет вам определить примерное КБЖУ блюда по фотографии и упростит вам ведение дневника питания",
-  },
-];
+import { featuredApps } from "../data/publishedApps";
 
 interface Project {
   title: string;
@@ -133,11 +10,11 @@ interface Project {
   status: string;
 }
 
-const projects: Project[] = otherAppsData.map((app) => ({
+const projects: Project[] = featuredApps.map((app) => ({
   title: app.name,
-  image: app.logo,
-  link: app.link,
-  preview: app.link,
+  image: app.logo!,
+  link: app.detailsPath ?? app.url,
+  preview: app.detailsPath ?? app.url,
   status: app.description,
 }));
 ---
@@ -209,21 +86,21 @@ const projects: Project[] = otherAppsData.map((app) => ({
         })
       }
     </div>
-    <!-- <a
-      target="_blank"
-      href="https://github.com/Gothsec?tab=repositories"
-      aria-label="GitHub"
-      class="w-full flex items-center justify-center gap-2 mt-9 text-[var(--white-icon)] hover:text-white transition duration-300 ease-in-out border border-[var(--white-icon-tr)] p-3 rounded-full bg-[#1414149c] hover:bg-[var(--white-icon-tr)]"
+    <a
+      href="/apps/"
+      class="w-full flex items-center justify-center gap-2 mt-10 text-[var(--white)] hover:text-white transition duration-300 ease-in-out border border-[var(--white-icon-tr)] px-5 py-4 rounded-full bg-[#17171b] hover:bg-[var(--white-icon-tr)] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[var(--sec)]"
     >
-      <span class="md:text-lg text-md">More projects on</span>
+      <span class="md:text-lg text-md">Все опубликованные приложения</span>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         fill="currentColor"
         class="size-6"
       >
-        <path d="M12.001 2C6.47598 2 2.00098 6.475 2.00098 12C2.00098 16.425 4.86348 20.1625 8.83848 21.4875C9.33848 21.575 9.52598 21.275 9.52598 21.0125C9.52598 20.775 9.51348 19.9875 9.51348 19.15C7.00098 19.6125 6.35098 18.5375 6.15098 17.975C6.03848 17.6875 5.55098 16.8 5.12598 16.5625C4.77598 16.375 4.27598 15.9125 5.11348 15.9C5.90098 15.8875 6.46348 16.625 6.65098 16.925C7.55098 18.4375 8.98848 18.0125 9.56348 17.75C9.65098 17.1 9.91348 16.6625 10.201 16.4125C7.97598 16.1625 5.65098 15.3 5.65098 11.475C5.65098 10.3875 6.03848 9.4875 6.67598 8.7875C6.57598 8.5375 6.22598 7.5125 6.77598 6.1375C6.77598 6.1375 7.61348 5.875 9.52598 7.1625C10.326 6.9375 11.176 6.825 12.026 6.825C12.876 6.825 13.726 6.9375 14.526 7.1625C16.4385 5.8625 17.276 6.1375 17.276 6.1375C17.826 7.5125 17.476 8.5375 17.376 8.7875C18.0135 9.4875 18.401 10.375 18.401 11.475C18.401 15.3125 16.0635 16.1625 13.8385 16.4125C14.201 16.725 14.5135 17.325 14.5135 18.2625C14.5135 19.6 14.501 20.675 14.501 21.0125C14.501 21.275 14.6885 21.5875 15.1885 21.4875C19.259 20.1133 21.9999 16.2963 22.001 12C22.001 6.475 17.526 2 12.001 2Z"></path>
+        <path
+          d="M16.0037 9.41421L7.39712 18.0208L5.98291 16.6066L14.5895 8H7.00373V6H18.0037V17H16.0037V9.41421Z"
+        ></path>
       </svg>
-    </a> -->
+    </a>
   </div>
 </section>
