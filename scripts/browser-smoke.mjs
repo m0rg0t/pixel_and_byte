@@ -40,6 +40,18 @@ async function verifyImages(page) {
   await page.waitForFunction(() =>
     [...document.images].every((image) => image.complete && image.naturalWidth > 0),
   );
+  await page.evaluate(async () => {
+    await Promise.all([...document.images].map((image) => image.decode()));
+    const painted = () => new Promise((resolve) =>
+      requestAnimationFrame(() => requestAnimationFrame(resolve)),
+    );
+    for (let top = 0; top < document.documentElement.scrollHeight; top += innerHeight) {
+      scrollTo(0, top);
+      await painted();
+    }
+    scrollTo(0, 0);
+    await painted();
+  });
 }
 try {
   let ready = false;
@@ -97,6 +109,7 @@ try {
     await page.screenshot({
       path: `${output}/home-${width}.png`,
       fullPage: true,
+      animations: "disabled",
     });
     await page.getByRole("link", { name: "О команде", exact: true }).click();
     await page.waitForURL("**/team**");
@@ -114,6 +127,7 @@ try {
     await page.screenshot({
       path: `${output}/apps-${width}.png`,
       fullPage: true,
+      animations: "disabled",
     });
     await page.goto(`${base}/blog/`, { waitUntil: "networkidle" });
     const article = page.locator(
