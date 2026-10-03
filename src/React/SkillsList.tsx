@@ -54,7 +54,7 @@ const SkillsList = () => {
   const [openItem, setOpenItem] = useState<string | null>(null);
 
   const toggleItem = (item: string) => {
-    setOpenItem(openItem === item ? null : item);
+    setOpenItem((previous) => (previous === item ? null : item));
   };
 
   return (
@@ -95,6 +95,7 @@ const SkillsList = () => {
 
               <div
                 id={`skills-${category.replace(/[^a-z0-9]+/gi, "-").toLowerCase()}`}
+                aria-hidden={openItem !== category}
                 className={`transition-[max-height,opacity,padding] duration-300 px-4 ${
                   openItem === category
                     ? "max-h-[500px] pb-4 opacity-100"

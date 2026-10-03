@@ -1,3 +1,4 @@
+import { colorToRgb, normalizePalette } from "./glitchColors";
 import { useRef, useEffect } from "react";
 
 const FONT_SIZE = 16;
@@ -5,33 +6,68 @@ const CHAR_WIDTH = 10;
 const CHAR_HEIGHT = 20;
 
 const LETTERS_AND_SYMBOLS = [
-  "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M",
-  "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z",
-  "!", "@", "#", "$", "&", "*", "(", ")", "-", "_", "+", "=", "/",
-  "[", "]", "{", "}", ";", ":", "<", ">", ",", "0", "1", "2", "3",
-  "4", "5", "6", "7", "8", "9",
+  "A",
+  "B",
+  "C",
+  "D",
+  "E",
+  "F",
+  "G",
+  "H",
+  "I",
+  "J",
+  "K",
+  "L",
+  "M",
+  "N",
+  "O",
+  "P",
+  "Q",
+  "R",
+  "S",
+  "T",
+  "U",
+  "V",
+  "W",
+  "X",
+  "Y",
+  "Z",
+  "!",
+  "@",
+  "#",
+  "$",
+  "&",
+  "*",
+  "(",
+  ")",
+  "-",
+  "_",
+  "+",
+  "=",
+  "/",
+  "[",
+  "]",
+  "{",
+  "}",
+  ";",
+  ":",
+  "<",
+  ">",
+  ",",
+  "0",
+  "1",
+  "2",
+  "3",
+  "4",
+  "5",
+  "6",
+  "7",
+  "8",
+  "9",
 ] as const;
 
 const getRandomChar = () =>
-  LETTERS_AND_SYMBOLS[
-    Math.floor(Math.random() * LETTERS_AND_SYMBOLS.length)
-  ];
-
-const hexToRgb = (hex: string) => {
-  const shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-  const expandedHex = hex.replace(shorthandRegex, (_match, r, g, b) => {
-    return r + r + g + g + b + b;
-  });
-
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(expandedHex);
-  return result
-    ? {
-        r: parseInt(result[1], 16),
-        g: parseInt(result[2], 16),
-        b: parseInt(result[3], 16),
-      }
-    : null;
-};
+  LETTERS_AND_SYMBOLS[Math.floor(Math.random() * LETTERS_AND_SYMBOLS.length)];
 
 const interpolateColor = (
   start: { r: number; g: number; b: number },
@@ -78,9 +114,10 @@ const LetterGlitch = ({
   const context = useRef<CanvasRenderingContext2D | null>(null);
   const lastGlitchTime = useRef(0);
 
-  const getRandomColor = () => {
-    return glitchColors[Math.floor(Math.random() * glitchColors.length)];
-  };
+  const palette = normalizePalette(glitchColors);
+  const paletteKey = palette.join(",");
+  const getRandomColor = () =>
+    palette[Math.floor(Math.random() * palette.length)];
 
   const initializeLetters = (columns: number, rows: number) => {
     grid.current = { columns, rows };
@@ -161,8 +198,8 @@ const LetterGlitch = ({
         letter.colorProgress += 0.05;
         if (letter.colorProgress > 1) letter.colorProgress = 1;
 
-        const startRgb = hexToRgb(letter.color);
-        const endRgb = hexToRgb(letter.targetColor);
+        const startRgb = colorToRgb(letter.color);
+        const endRgb = colorToRgb(letter.targetColor);
         if (startRgb && endRgb) {
           letter.color = interpolateColor(
             startRgb,
@@ -199,6 +236,7 @@ const LetterGlitch = ({
     if (!canvas) return;
 
     context.current = canvas.getContext("2d");
+    if (!context.current) return;
     resizeCanvas();
     lastGlitchTime.current = Date.now();
     animate();
@@ -229,7 +267,7 @@ const LetterGlitch = ({
       window.removeEventListener("resize", handleResize);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [glitchSpeed, smooth]);
+  }, [glitchSpeed, smooth, paletteKey]);
 
   return (
     <div className="relative w-full h-full bg-[#101010] overflow-hidden">

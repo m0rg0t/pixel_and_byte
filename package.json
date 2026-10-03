@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.0.1",
   "engines": {
-    "node": ">=22.12.0"
+    "node": ">=24.15.0 <25"
   },
   "scripts": {
     "dev": "astro dev",
@@ -12,33 +12,35 @@
     "astro": "astro",
     "test": "vitest run",
     "test:watch": "vitest",
-    "check": "astro check"
+    "check": "astro check",
+    "test:browser": "node scripts/browser-smoke.mjs"
   },
   "dependencies": {
-    "@astrojs/react": "^6.0.5",
+    "@astrojs/react": "^7.0.0",
     "@astrojs/rss": "^4.0.19",
     "@astrojs/sitemap": "^3.7.4",
     "@tailwindcss/vite": "^4.3.3",
-    "@vercel/speed-insights": "^1.1.0",
-    "astro": "^7.2.10",
-    "firebase": "^11.3.0",
+    "@vercel/speed-insights": "^2.0.0",
+    "astro": "^7.3.5",
+    "firebase": "^12.19.0",
     "ogl": "^1.0.11",
-    "react": "^19.2.8",
-    "react-dom": "^19.2.8",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
     "tailwindcss": "^4.3.3"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.10",
     "@testing-library/jest-dom": "^7.0.1",
-    "@testing-library/react": "^16.3.2",
-    "@types/node": "^24.13.3",
-    "@types/react": "^19.2.18",
-    "@types/react-dom": "^19.2.4",
-    "@vitejs/plugin-react": "^6.0.5",
-    "jsdom": "^30.0.1",
-    "prettier": "^3.9.6",
-    "prettier-plugin-astro": "^0.14.1",
-    "typescript": "^5.9.3",
-    "vitest": "^4.1.10"
+    "@testing-library/react": "^16.3.3",
+    "@types/node": "^24.19.1",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.1",
+    "jsdom": "^30.1.1",
+    "playwright": "^1.63.0",
+    "prettier": "^3.9.9",
+    "prettier-plugin-astro": "^1.1.0",
+    "typescript": "~6.0.3",
+    "vitest": "^5.0.3"
   }
 }
