@@ -31,6 +31,16 @@ server.stderr.on("data", (data) => {
 let browser;
 const results = [],
   errors = [];
+async function verifyImages(page) {
+  // Full-page captures do not scroll, so off-screen lazy images need an
+  // explicit load before checking the real artwork rather than blank slots.
+  await page.locator("img").evaluateAll((images) => {
+    for (const image of images) image.loading = "eager";
+  });
+  await page.waitForFunction(() =>
+    [...document.images].every((image) => image.complete && image.naturalWidth > 0),
+  );
+}
 try {
   let ready = false;
   for (let i = 0; i < 60; i++) {
@@ -83,6 +93,7 @@ try {
         () => document.documentElement.scrollWidth <= innerWidth + 1,
       ),
     );
+    await verifyImages(page);
     await page.screenshot({
       path: `${output}/home-${width}.png`,
       fullPage: true,
@@ -99,6 +110,7 @@ try {
     assert.ok(
       (await page.locator('a[href^="https://vk.com/app"]').count()) > 0,
     );
+    await verifyImages(page);
     await page.screenshot({
       path: `${output}/apps-${width}.png`,
       fullPage: true,
