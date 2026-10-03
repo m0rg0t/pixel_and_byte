@@ -30,7 +30,7 @@ server.stderr.on("data", (data) => {
 });
 let browser;
 const results = [],
-  errors = [];
+  errors = [], blockedRequests = [], unexpected = [];
 async function verifyImages(page) {
   // Full-page captures do not scroll, so off-screen lazy images need an
   // explicit load before checking the real artwork rather than blank slots.
@@ -71,6 +71,7 @@ try {
   browser = await chromium.launch({
     headless: true,
     chromiumSandbox: true,
+    proxy: { server: "http://127.0.0.1:9", bypass: "127.0.0.1,localhost" },
     executablePath: process.env.E2E_CHROME ?? "/usr/bin/google-chrome",
   });
   for (const width of [360, 1280]) {
@@ -78,11 +79,18 @@ try {
       viewport: { width, height: 900 },
       reducedMotion: "reduce",
     });
-    await context.route("**/*", (route) =>
-      new URL(route.request().url()).origin === base
-        ? route.continue()
-        : route.abort("blockedbyclient"),
-    );
+    await context.route("**/*", (route) => {
+      const url = new URL(route.request().url());
+      if (url.origin === base) return route.continue();
+      blockedRequests.push(url.origin + url.pathname);
+      // Existing remote font CSS is blocked; screenshots exercise the fallback.
+      if (url.hostname !== "fonts.googleapis.com" && url.hostname !== "fonts.gstatic.com") unexpected.push(url.origin + url.pathname);
+      return route.abort("blockedbyclient");
+    });
+    await context.routeWebSocket("**/*", (socket) => {
+      unexpected.push("websocket:" + new URL(socket.url()).origin);
+      socket.close();
+    });
     const page = await context.newPage();
     page.on("pageerror", (error) => errors.push(String(error)));
     await page.goto(base, { waitUntil: "networkidle" });
@@ -146,9 +154,10 @@ try {
   );
   assert.ok(rss.includes("/blog/vk-mini-apps-signature-check-in-nodejs"));
   assert.deepEqual(errors, []);
+  assert.deepEqual(unexpected, []);
   await writeFile(
     `${output}/report.json`,
-    JSON.stringify({ results, errors }, null, 2),
+    JSON.stringify({ results, errors, blockedRequests, unexpected }, null, 2),
   );
   console.log(results.join("\n"));
 } finally {

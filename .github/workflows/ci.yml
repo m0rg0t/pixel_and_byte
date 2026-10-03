@@ -23,13 +23,16 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci --no-audit --no-fund
-      - run: npm run check
-      - run: npm test
-      - run: npm run build
-      - run: node scripts/browser-smoke.mjs
+      - run: npm run test:guards
+      - run: npm run audit:dependencies
+      - run: npm run verify:offline -- node_modules/astro/bin/astro.mjs check
+      - run: npm run verify:offline -- node_modules/vitest/vitest.mjs run
+      - run: npm run verify:offline -- node_modules/astro/bin/astro.mjs build
+      - run: node scripts/dependency-audit.mjs --runtime
+      - run: npm run verify:offline -- scripts/browser-smoke.mjs
       - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always()
         with:
           name: site-browser-evidence
-          path: output/browser-smoke/
+          path: output/
           if-no-files-found: ignore

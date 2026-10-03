@@ -13,7 +13,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "check": "astro check",
-    "test:browser": "node scripts/browser-smoke.mjs"
+    "test:browser": "node scripts/browser-smoke.mjs",
+    "verify:offline": "node scripts/run-offline.mjs",
+    "audit:dependencies": "node scripts/dependency-audit.mjs",
+    "test:guards": "node scripts/run-offline.mjs --test scripts/*.check.mjs"
   },
   "dependencies": {
     "@astrojs/react": "^7.0.0",
@@ -42,5 +45,10 @@
     "prettier-plugin-astro": "^1.1.0",
     "typescript": "~6.0.3",
     "vitest": "^5.0.3"
+  },
+  "overrides": {
+    "@firebase/firestore": {
+      "@grpc/grpc-js": "1.14.5"
+    }
   }
 }

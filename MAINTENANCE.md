@@ -8,12 +8,34 @@ The existing Pages deployment workflow keeps its manual/main-branch triggers,
 environment and permissions; its obsolete Node 20 and action versions are
 updated. A separate pull-request workflow is read-only and never deploys.
 
-`npm ci --no-audit --no-fund`, `npm run check`, `npm test` and `npm run build`
-verify the maintained lockfile. Installation does not perform an implicit
-registry graph audit. No live registry audit result or clean-audit claim is
-included. Astro's dependency graph still includes the unpatched build-time
-[http-cache-semantics advisory](https://github.com/advisories/GHSA-ch52-4w7c-c8xp);
-the published site is static and does not ship the Node build dependencies.
+`npm ci --no-audit --no-fund` keeps installation separate from the explicit
+full registry audit. The approved audit identified patched transitive issues:
+`fast-uri` is now 3.1.8 within AJV's supported range, and a Firestore-scoped
+override selects `@grpc/grpc-js` 1.14.5. Current Firebase 12.19/Firestore 4.17.2
+still declare grpc `~1.9.0`; the override needs review when upstream changes.
+[grpc 1.14.5](https://github.com/grpc/grpc-node/releases/tag/@grpc%2Fgrpc-js@1.14.5)
+and [fast-uri 3.1.8](https://github.com/fastify/fast-uri/releases/tag/v3.1.8)
+are their upstream security releases. Tests exercise Firestore's actual
+proto-loader/grpc API boundary through a synthetic loopback RPC, plus offline
+SDK construction/termination. This does not validate production Firebase access.
+
+The full audit still reports two high package findings for one unpatched
+[http-cache-semantics advisory](https://github.com/advisories/GHSA-ch52-4w7c-c8xp).
+The narrow gate expires on 2026-11-03 and requires Astro 7.3.5, cache 4.2.0,
+exact dependency paths and the SHA-256 of Astro's installed remote-image call
+site. That call site only calculates image expiry with `storable/timeToLive`;
+it does not invoke the affected request-matching/max-stale method. The static
+build is additionally scanned for the held implementation/import and grpc.
+Changed/new findings, paths, versions or call-site content fail the gate.
+Full audit JSON and reachability evidence are archived in CI; this is not a
+zero-vulnerability result. A synthetic regression suite covers exception expiry
+and fail-closed handling of additional findings and invalid reports.
+
+Type checks, unit tests, build and preview inherit a verification-only Node
+fetch/socket guard, with intentional forbidden-request regressions. Production
+configuration is unchanged. Browser traffic is loopback-only through a closed
+proxy; existing remote Google Fonts CSS is blocked and recorded, so screenshots
+show the system-font fallback. No Firebase or customer services are contacted.
 
 New regression coverage verifies:
 
